@@ -26,3 +26,29 @@ jobs:
         with:
           path: dist
       - uses: actions/deploy-pages@v4
+
+      - name: Create GitHub deployment
+        id: create_deploy
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: ${{ github.token }}
+          environment: production
+          description: "Deploy Pages for release ${{ github.ref_name }}"
+
+      - name: Mark deployment success
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ github.token }}
+          deployment-id: ${{ steps.create_deploy.outputs.deployment_id }}
+          environment: production
+          state: success
+
+      - name: Mark deployment failure
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ github.token }}
+          deployment-id: ${{ steps.create_deploy.outputs.deployment_id }}
+          environment: production
+          state: failure
