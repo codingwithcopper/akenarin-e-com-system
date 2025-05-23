@@ -18,7 +18,7 @@ function App() {
       </div>
       <h1>E-com System 7.0.0 test CI (workflows)</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={( => setCount((count) => count + 1)}>
           count is {count}
         </button>
         <p>
